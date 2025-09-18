@@ -14,21 +14,27 @@
     --ink:#fff; --muted:#e6e6e6;
     --panel:rgba(0,0,0,.55); --panel-strong:rgba(15,21,29,.68);
     --shadow:0 12px 28px rgba(0,0,0,.32);
-    --btn-red:#ff2a20; --btn-blue:#5b8ecf; --btn-yellow:#ffbc49; --btn-green:#7cb342; --btn-purple:#8e44ad;
-    --raise: clamp(90px, 12vh, 180px); /* solo desktop/tablet; en móvil se desactiva */
+
+    /* Colores de botones */
+    --btn-whatsapp:#25D366;   /* WhatsApp */
+    --btn-blue:#5b8ecf;       /* Horario */
+    --btn-yellow:#ffbc49;     /* (ahora) Ubicación */
+    --btn-green:#7cb342;      /* (ahora) Guardar contacto */
+    --btn-purple:#8e44ad;     /* Web */
+
+    --raise: clamp(90px, 12vh, 180px);
   }
   *{box-sizing:border-box}
 
-  /* ====== Desktop/Tablet: vista fija sin scroll ====== */
   html, body{height:100%; overflow:hidden; overscroll-behavior:none;}
   body{
     margin:0; background:#000; color:var(--ink);
     font-family:Arimo,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-    padding-bottom:56px;                 /* espacio para barra fija */
-    position:fixed; inset:0;             /* fija la página en desktop */
+    padding-bottom:56px;
+    position:fixed; inset:0;
   }
 
-  /* ====== HERO (escritorio) ====== */
+  /* ====== HERO ====== */
   .hero{
     position:relative;
     background:#0b0d0f url("img/portada-nueva.png") no-repeat right bottom/cover;
@@ -46,7 +52,7 @@
     position:relative; z-index:2; margin:0 auto; width:100%; max-width:1180px;
     padding:32px 20px;
     display:grid; grid-template-columns:minmax(280px,420px) 1fr; gap:22px; align-items:start;
-    transform: translateY(calc(-1 * var(--raise))); /* sube los recuadros en desktop */
+    transform: translateY(calc(-1 * var(--raise)));
   }
   @media (min-width:1200px){
     .hero{ background-position: 70% 92%; }
@@ -57,22 +63,38 @@
     .hero .container{ grid-template-columns:1fr; gap:16px; padding:18px 14px 22px; transform:none; }
   }
 
-  /* Panel izquierdo */
+  /* ====== Tarjeta izquierda ====== */
   .left{
     padding:16px 16px 18px;
-    background:rgba(0,0,0,.50);
+    background:rgba(0,0,0,.38); /* más translúcido */
     border:1px solid rgba(255,255,255,.08);
     border-radius:16px;
     box-shadow: var(--shadow);
     backdrop-filter: blur(2px);
+    text-align:center; /* centrado del bloque */
   }
-  .left .logo{display:flex; justify-content:flex-start; margin-bottom:12px}
-  .left .logo img{max-width:200px;height:auto;display:block}
-  .h3{margin:0;font-size:26px;text-align:left}
-  .sub{margin:6px 0 0;font-size:14px;text-align:left;color:var(--muted)}
-  .div-line{height:1px;background:#fff;opacity:.24;margin:10px 0;max-width:210px}
+  .left .logo{
+    display:flex; justify-content:center; /* logo centrado */
+    margin-bottom:12px;
+  }
+  .left .logo img{max-width:200px;height:auto;display:block;margin:0 auto}
 
-  /* Derecha */
+  .h3{
+    margin:0;
+    font-size:34px;          /* título más grande */
+    line-height:1.1;
+  }
+  .sub{
+    margin:6px 0 0;
+    font-size:15px;
+    color:var(--muted);
+  }
+  .div-line{
+    height:1px;background:#fff;opacity:.24;
+    margin:10px auto;max-width:210px; /* línea centrada */
+  }
+
+  /* ====== Columna derecha ====== */
   .right{display:flex;flex-direction:column;gap:10px}
 
   .title-box{
@@ -86,7 +108,7 @@
   .title{font-size:28px;font-weight:700;margin:0}
   .subtitle{font-size:14px;margin:6px 0 0;color:var(--muted)}
 
-  /* Botones sin caja */
+  /* ====== Botonera ====== */
   .btns{
     background:transparent; border:none; box-shadow:none;
     padding:6px 0;
@@ -103,11 +125,13 @@
   }
   .btn:hover{transform:translateY(-2px);filter:saturate(1.05)}
   .btn:active{transform:translateY(0) scale(.99)}
-  .btn-red{background:var(--btn-red)}
-  .btn-blue{background:var(--btn-blue)}
-  .btn-yellow{background:var(--btn-yellow);color:#0a0a0a}
-  .btn-green{background:var(--btn-green)}
-  .btn-purple{background:var(--btn-purple)}
+
+  /* Colores */
+  .btn-whatsapp{background:var(--btn-whatsapp);}
+  .btn-blue{background:var(--btn-blue);}
+  .btn-yellow{background:var(--btn-yellow);color:#0a0a0a;} /* ahora Ubicación */
+  .btn-green{background:var(--btn-green);}                  /* ahora Guardar contacto */
+  .btn-purple{background:var(--btn-purple);}
 
   /* ====== Barra fija ====== */
   .infobar{
@@ -133,19 +157,14 @@
   .btn-mini{appearance:none;border:none;border-radius:10px;padding:10px 14px;color:#fff;cursor:pointer;background:#1f2a38}
   .btn-mini.ok{background:#2ecc71}
 
-  /* ====== SOLO CELULAR: scroll + imagen móvil + layout ajustado ====== */
+  /* ====== SOLO CELULAR ====== */
   @media (max-width:430px){
-    /* Activar scroll normal en móvil */
     html, body{ height:auto; overflow:auto; }
-    body{
-      position:static;
-      padding-bottom:80px;
-    }
+    body{ position:static; padding-bottom:80px; }
 
-    /* Usa la imagen SOLO para móvil */
     .hero{
       min-height:100svh;
-      background-image:url("img/portada-mobile.jpg");  /* ← NUEVA imagen móvil */
+      background-image:url("img/portada-mobile.jpg");
       background-position:center bottom;
       background-size:cover;
     }
@@ -161,36 +180,18 @@
       grid-template-columns:1fr;
     }
 
-    /* Panel izquierdo compacto */
-    .left{ padding:12px; border-radius:14px; background:rgba(0,0,0,.48); }
+    .left{ padding:12px; border-radius:14px; background:rgba(0,0,0,.34); }
     .left .logo img{ max-width:160px; }
-    .h3{ font-size:22px; }
-    .sub{ font-size:13px; }
-    .div-line{ max-width:180px; margin:8px 0; }
+    .h3{ font-size:28px; } /* proporcional en móvil */
+    .sub{ font-size:14px; }
+    .div-line{ max-width:180px; margin:8px auto; }
 
-    /* Título y subtítulo más pequeños */
-    .title-box{
-      padding:10px 12px;
-      background:rgba(15,21,29,.40);
-      border-radius:14px;
-    }
+    .title-box{ padding:10px 12px; background:rgba(15,21,29,.40); border-radius:14px; }
     .title{ font-size:24px; }
     .subtitle{ font-size:13px; }
 
-    /* Botones a 1 columna y 100% ancho */
-    .btns{
-      grid-template-columns:1fr;
-      gap:10px;
-      padding:2px 0;
-    }
-    .btn{
-      max-width:none; width:100%;
-      min-height:46px;
-      font-size:15px;
-      padding:11px 14px;
-      border-radius:10px;
-      box-shadow: 0 6px 14px rgba(0,0,0,.22);
-    }
+    .btns{ grid-template-columns:1fr; gap:10px; padding:2px 0; }
+    .btn{ max-width:none; width:100%; min-height:46px; font-size:15px; padding:11px 14px; border-radius:10px; box-shadow: 0 6px 14px rgba(0,0,0,.22); }
   }
 </style>
 </head>
@@ -216,9 +217,9 @@
           <p class="subtitle">Contamos con equipos de primera generación para diagnóstico automotriz</p>
         </div>
 
-        <!-- BOTONES -->
+        <!-- BOTONES (invertidos ubicación/guardar contacto) -->
         <div class="btns" aria-label="Acciones rápidas">
-          <a class="btn btn-red" data-action="whatsapp"
+          <a class="btn btn-whatsapp" data-action="whatsapp"
              data-number="56976209564"
              data-text="Hola, vengo desde la Tarjeta Virtual. Me gustaría cotizar (solo MENSAJES, por favor).">
             WhatsApp
@@ -226,9 +227,11 @@
 
           <a class="btn btn-blue" data-action="horario">Horario</a>
 
-          <a class="btn btn-yellow" data-action="vcard">Guardar contacto</a>
+          <!-- Guardar contacto ahora es VERDE y queda en la primera fila derecha -->
+          <a class="btn btn-green" data-action="vcard">Guardar contacto</a>
 
-          <a class="btn btn-green" data-action="open"
+          <!-- Ubicación ahora es AMARILLA y queda en la segunda fila izquierda -->
+          <a class="btn btn-yellow" data-action="open"
              data-href="https://www.google.com/maps?q=Pasaje+Iquitos+229,+Lo+Prado,+Santiago,+Chile">Ubicación</a>
 
           <a class="btn btn-purple" data-action="open"
@@ -242,7 +245,6 @@
   <div class="infobar" role="contentinfo">
     <div class="left-mini">© <span id="year"></span> El Señor de los Scanner</div>
     <div class="right-mini">
-      
       <span class="dot">•</span>
       <a id="addrLink" href="#" target="_blank" rel="noopener">📍 Pasaje Iquitos 229, Lo Prado, Santiago</a>
       <span class="dot">•</span>
@@ -337,9 +339,7 @@ END:VCARD`;
     if(handlers[action]) handlers[action](btn);
   });
 
-  // Año + enlaces de barra fija
   document.getElementById("year").textContent = new Date().getFullYear();
-  document.getElementById("telLink").href = `tel:${CFG.telefono.replace(/\s+/g,'')}`;
   document.getElementById("addrLink").href = CFG.mapsUrl;
   document.getElementById("siteLink").href = CFG.sitio;
 </script>
