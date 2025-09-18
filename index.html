@@ -23,11 +23,11 @@
   body{
     margin:0; background:#000; color:var(--ink);
     font-family:Arimo,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-    padding-bottom:56px;
+    padding-bottom:56px;            /* espacio para barra fija */
     position:fixed; inset:0;
   }
 
-  /* ====== HERO (NO TOCAR) ====== */
+  /* ====== HERO (se mantiene como lo tienes) ====== */
   .hero{
     position:relative;
     background:#0b0d0f url("img/portada-nueva.png") no-repeat right bottom/cover;
@@ -70,41 +70,31 @@
   .h3{margin:0;font-size:26px;text-align:left}
   .sub{margin:6px 0 0;font-size:14px;text-align:left;color:var(--muted)}
   .div-line{height:1px;background:#fff;opacity:.24;margin:10px 0;max-width:210px}
-  @media (max-width:480px){
-    .left{padding:14px}
-    .left .logo img{max-width:180px}
-    .h3{font-size:22px}
-    .sub{font-size:13px}
-  }
 
   /* Derecha */
   .right{display:flex;flex-direction:column;gap:10px}
 
-  /* Título: fondo más sutil y compacto */
+  /* Título */
   .title-box{
-    background:rgba(15,21,29,.48);        /* ↓ menos opaco */
+    background:rgba(15,21,29,.48);
     border:1px solid rgba(255,255,255,.06);
     border-radius:16px;
-    padding:12px 16px;                     /* ↓ menos alto */
+    padding:12px 16px;
     backdrop-filter: blur(2px);
     box-shadow: 0 10px 22px rgba(0,0,0,.28);
   }
   .title{font-size:28px;font-weight:700;margin:0}
   .subtitle{font-size:14px;margin:6px 0 0;color:var(--muted)}
 
-  /* Botones: sin caja opaca alrededor; solo los botones visibles */
+  /* Botones (sin caja) */
   .btns{
-    background:transparent;                /* ← quitamos recuadro grande */
-    border:none; box-shadow:none;
-    padding:6px 0;                         /* ↓ menos espacio */
+    background:transparent; border:none; box-shadow:none;
+    padding:6px 0;
     display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;
   }
-  @media (max-width:980px){ .btns{ grid-template-columns:repeat(2,1fr); } }
-  @media (max-width:680px){ .btns{ grid-template-columns:1fr; } }
-
   .btn{
     display:inline-flex;align-items:center;justify-content:center;
-    padding:12px 14px;                     /* ↓ más compacto */
+    padding:12px 14px;
     font-weight:700;font-size:16px;letter-spacing:.2px;
     color:#fff;text-decoration:none;border-radius:10px;
     box-shadow: 0 8px 18px rgba(0,0,0,.25);
@@ -142,6 +132,40 @@
   .row-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
   .btn-mini{appearance:none;border:none;border-radius:10px;padding:10px 14px;color:#fff;cursor:pointer;background:#1f2a38}
   .btn-mini.ok{background:#2ecc71}
+
+  /* ====== Ajustes EXCLUSIVOS para celular ====== */
+  @media (max-width:430px){
+    /* más espacio debajo para no chocar con la barra */
+    body{ padding-bottom:72px; }
+
+    .left{ padding:12px 12px 14px; border-radius:14px; }
+    .left .logo img{ max-width:160px; }
+    .h3{ font-size:22px; }
+    .sub{ font-size:13px; }
+    .div-line{ max-width:180px; margin:8px 0; }
+
+    .title-box{
+      padding:10px 14px;
+      background:rgba(15,21,29,.42);
+      border-radius:14px;
+    }
+    .title{ font-size:24px; }
+    .subtitle{ font-size:13px; }
+
+    .btns{
+      grid-template-columns:1fr;   /* 1 columna */
+      gap:10px;
+      padding:2px 0;
+    }
+    .btn{
+      max-width:none; width:100%;
+      min-height:44px;
+      font-size:15px;
+      padding:11px 14px;
+      border-radius:10px;
+      box-shadow: 0 6px 14px rgba(0,0,0,.22);
+    }
+  }
 </style>
 </head>
 <body>
@@ -166,7 +190,7 @@
           <p class="subtitle">Contamos con equipos de primera generación para diagnóstico automotriz</p>
         </div>
 
-        <!-- BOTONES (sin recuadro grande) -->
+        <!-- BOTONES -->
         <div class="btns" aria-label="Acciones rápidas">
           <a class="btn btn-red" data-action="whatsapp"
              data-number="56976209564"
@@ -243,7 +267,6 @@
 
   const handlers = {
     open: el => { const href = el.dataset.href || CFG.mapsUrl; openURL(href); },
-
     whatsapp: () => {
       showModal("WhatsApp (solo mensajes)",
         `<p>Atendemos <strong>solo por mensajes</strong> de WhatsApp.<br>
@@ -254,14 +277,12 @@
           openURL(`https://wa.me/${num}?text=${text}`);
         });
     },
-
     horario: () => {
       showModal("Horario de atención",
         `<p><strong>Lunes a Jueves:</strong> 08:00 – 17:00 <span style="opacity:.85">(colación 14:00 – 15:00)</span></p>
          <p><strong>Viernes:</strong> 08:00 – 14:00</p>
          <p><strong>Sábado, Domingo y feriados:</strong> Cerrado</p>`);
     },
-
     vcard: () => {
       const vcard =
 `BEGIN:VCARD
