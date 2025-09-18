@@ -242,7 +242,7 @@
   <div class="infobar" role="contentinfo">
     <div class="left-mini">© <span id="year"></span> El Señor de los Scanner</div>
     <div class="right-mini">
-      <a id="telLink" href="tel:+56976209564">📞 +56 9 7620 9564</a>
+      
       <span class="dot">•</span>
       <a id="addrLink" href="#" target="_blank" rel="noopener">📍 Pasaje Iquitos 229, Lo Prado, Santiago</a>
       <span class="dot">•</span>
@@ -325,7 +325,7 @@ END:VCARD`;
       a.href = url; a.download = "ElSenorDeLosScanner.vcf";
       document.body.appendChild(a); a.click(); a.remove();
       URL.revokeObjectURL(url);
-      showModal("Contacto guardado","Se descargó la ficha de contacto (vCard). Ábrela para añadirla a tu agenda.");
+      showModal("Contacto guardado","Se descargó la ficha de contacto. Ábrela para añadirla a tu agenda.");
     }
   };
 
