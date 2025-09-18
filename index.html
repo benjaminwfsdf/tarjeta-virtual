@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>El Señor de los Scanner | Tarjeta Virtual</title>
+<meta name="theme-color" content="#161616" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#fff; --muted:#e6e6e6;
+    --panel:rgba(0,0,0,.55); --panel-strong:rgba(15,21,29,.68);
+    --shadow:0 12px 28px rgba(0,0,0,.32);
+    --btn-red:#ff2a20; --btn-blue:#5b8ecf; --btn-yellow:#ffbc49; --btn-green:#7cb342; --btn-purple:#8e44ad;
+    --raise: clamp(90px, 12vh, 180px);
+  }
+  *{box-sizing:border-box}
+
+  html, body{height:100%; overflow:hidden; overscroll-behavior:none;}
+  body{
+    margin:0; background:#000; color:var(--ink);
+    font-family:Arimo,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    padding-bottom:56px;
+    position:fixed; inset:0;
+  }
+
+  /* ====== HERO (NO TOCAR) ====== */
+  .hero{
+    position:relative;
+    background:#0b0d0f url("img/portada-nueva.png") no-repeat right bottom/cover;
+    min-height:130svh;
+    display:flex; align-items:center;
+  }
+  .hero::before{
+    content:""; position:absolute; inset:0;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.80) 0%, rgba(0,0,0,.60) 28%, rgba(0,0,0,.28) 55%, rgba(0,0,0,.06) 76%, rgba(0,0,0,0) 100%),
+      linear-gradient(0deg, rgba(0,0,0,.10), rgba(0,0,0,.10));
+    pointer-events:none;
+  }
+  .hero .container{
+    position:relative; z-index:2; margin:0 auto; width:100%; max-width:1180px;
+    padding:32px 20px;
+    display:grid; grid-template-columns:minmax(280px,420px) 1fr; gap:22px; align-items:start;
+    transform: translateY(calc(-1 * var(--raise)));
+  }
+  @media (min-width:1200px){
+    .hero{ background-position: 70% 92%; }
+    :root{ --raise: clamp(110px, 14vh, 200px); }
+  }
+  @media (max-width:980px){
+    .hero{ background-position: 65% 95%; }
+    .hero .container{ grid-template-columns:1fr; gap:16px; padding:18px 14px 22px; transform:none; }
+  }
+
+  /* Panel izquierdo */
+  .left{
+    padding:16px 16px 18px;
+    background:rgba(0,0,0,.50);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(2px);
+  }
+  .left .logo{display:flex; justify-content:flex-start; margin-bottom:12px}
+  .left .logo img{max-width:200px;height:auto;display:block}
+  .h3{margin:0;font-size:26px;text-align:left}
+  .sub{margin:6px 0 0;font-size:14px;text-align:left;color:var(--muted)}
+  .div-line{height:1px;background:#fff;opacity:.24;margin:10px 0;max-width:210px}
+  @media (max-width:480px){
+    .left{padding:14px}
+    .left .logo img{max-width:180px}
+    .h3{font-size:22px}
+    .sub{font-size:13px}
+  }
+
+  /* Derecha */
+  .right{display:flex;flex-direction:column;gap:10px}
+
+  /* Título: fondo más sutil y compacto */
+  .title-box{
+    background:rgba(15,21,29,.48);        /* ↓ menos opaco */
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:16px;
+    padding:12px 16px;                     /* ↓ menos alto */
+    backdrop-filter: blur(2px);
+    box-shadow: 0 10px 22px rgba(0,0,0,.28);
+  }
+  .title{font-size:28px;font-weight:700;margin:0}
+  .subtitle{font-size:14px;margin:6px 0 0;color:var(--muted)}
+
+  /* Botones: sin caja opaca alrededor; solo los botones visibles */
+  .btns{
+    background:transparent;                /* ← quitamos recuadro grande */
+    border:none; box-shadow:none;
+    padding:6px 0;                         /* ↓ menos espacio */
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;
+  }
+  @media (max-width:980px){ .btns{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:680px){ .btns{ grid-template-columns:1fr; } }
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:12px 14px;                     /* ↓ más compacto */
+    font-weight:700;font-size:16px;letter-spacing:.2px;
+    color:#fff;text-decoration:none;border-radius:10px;
+    box-shadow: 0 8px 18px rgba(0,0,0,.25);
+    transition:transform .12s ease,filter .12s ease;cursor:pointer;
+    min-height:46px; width:100%; max-width:210px; margin:0 auto;
+  }
+  .btn:hover{transform:translateY(-2px);filter:saturate(1.05)}
+  .btn:active{transform:translateY(0) scale(.99)}
+  .btn-red{background:var(--btn-red)}
+  .btn-blue{background:var(--btn-blue)}
+  .btn-yellow{background:var(--btn-yellow);color:#0a0a0a}
+  .btn-green{background:var(--btn-green)}
+  .btn-purple{background:var(--btn-purple)}
+
+  /* ====== Barra fija ====== */
+  .infobar{
+    position:fixed; left:0; right:0; bottom:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    padding:10px 14px; background:rgba(0,0,0,.72);
+    backdrop-filter:saturate(1.2) blur(4px);
+    color:#cfcfcf; font-size:13px; line-height:1.35;
+    border-top:1px solid rgba(255,255,255,.08);
+  }
+  .infobar a{color:#e6e6e6; text-decoration:none}
+  .infobar .left-mini{opacity:.9}
+  .infobar .right-mini{display:flex; gap:12px; flex-wrap:wrap}
+  .infobar .dot{opacity:.5}
+
+  /* ====== Modal ====== */
+  .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.55);z-index:80}
+  .modal.open{display:grid}
+  .box{width:min(520px,92vw);background:#0f151d;border:1px solid #223042;border-radius:18px;box-shadow:var(--shadow);padding:18px;color:#eaf2ff}
+  .box h3{margin:0 0 8px 0}
+  .box p{margin:8px 0}
+  .row-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
+  .btn-mini{appearance:none;border:none;border-radius:10px;padding:10px 14px;color:#fff;cursor:pointer;background:#1f2a38}
+  .btn-mini.ok{background:#2ecc71}
+</style>
+</head>
+<body>
+
+  <!-- ====== HERO ====== -->
+  <section class="hero" role="banner">
+    <div class="container">
+      <!-- Izquierda -->
+      <div class="left">
+        <div class="logo">
+          <img src="img/logo.jpg" alt="El Señor de los Scanner" onerror="this.style.display='none'">
+        </div>
+        <h3 class="h3">Scanner Automotriz</h3>
+        <p class="sub">Scanner automotriz para todo vehículo</p>
+        <div class="div-line"></div>
+      </div>
+
+      <!-- Derecha -->
+      <div class="right">
+        <div class="title-box">
+          <h2 class="title">Especialistas en Scanner</h2>
+          <p class="subtitle">Contamos con equipos de primera generación para diagnóstico automotriz</p>
+        </div>
+
+        <!-- BOTONES (sin recuadro grande) -->
+        <div class="btns" aria-label="Acciones rápidas">
+          <a class="btn btn-red" data-action="whatsapp"
+             data-number="56976209564"
+             data-text="Hola, vengo desde la Tarjeta Virtual. Me gustaría cotizar (solo MENSAJES, por favor).">
+            WhatsApp
+          </a>
+
+          <a class="btn btn-blue" data-action="horario">Horario</a>
+
+          <a class="btn btn-yellow" data-action="vcard">Guardar contacto</a>
+
+          <a class="btn btn-green" data-action="open"
+             data-href="https://www.google.com/maps?q=Pasaje+Iquitos+229,+Lo+Prado,+Santiago,+Chile">Ubicación</a>
+
+          <a class="btn btn-purple" data-action="open"
+             data-href="https://www.elsenordelosescaner.cl">Visitar web</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Barra fija ====== -->
+  <div class="infobar" role="contentinfo">
+    <div class="left-mini">© <span id="year"></span> El Señor de los Scanner</div>
+    <div class="right-mini">
+      <a id="telLink" href="tel:+56976209564">📞 +56 9 7620 9564</a>
+      <span class="dot">•</span>
+      <a id="addrLink" href="#" target="_blank" rel="noopener">📍 Pasaje Iquitos 229, Lo Prado, Santiago</a>
+      <span class="dot">•</span>
+      <a id="siteLink" href="https://www.elsenordelosescaner.cl" target="_blank" rel="noopener">🌐 Sitio web</a>
+    </div>
+  </div>
+
+  <!-- ====== Modal ====== -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="box" role="dialog" aria-modal="true">
+      <h3 id="modalTitle">Aviso</h3>
+      <div id="modalBody"></div>
+      <div class="row-btns">
+        <button class="btn-mini ok" id="modalOk">OK</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const CFG = {
+    nombre: "El Señor de los Scanner",
+    sitio: "https://www.elsenordelosescaner.cl",
+    whatsappNumero: "56976209564",
+    whatsappTexto: "Hola, vengo desde la Tarjeta Virtual.",
+    mapsUrl: "https://www.google.com/maps?q=Pasaje+Iquitos+229,+Lo+Prado,+Santiago,+Chile",
+    telefono: "+56976209564",
+    correo: "waldo.gonzalez02@gmail.com"
+  };
+
+  const $  = (s, r=document)=>r.querySelector(s);
+  const openURL = url => window.open(url, "_blank", "noopener");
+
+  const modal = $("#modal"), mTitle=$("#modalTitle"), mBody=$("#modalBody");
+  let afterOk = null;
+
+  const showModal=(title, html, callback)=>{
+    if(title) mTitle.textContent=title;
+    if(html) mBody.innerHTML=html;
+    modal.classList.add("open");
+    afterOk = callback || null;
+  };
+  const hideModal=()=>{
+    modal.classList.remove("open");
+    if(afterOk){ afterOk(); afterOk=null; }
+  };
+  $("#modalOk").addEventListener("click", hideModal);
+  modal.addEventListener("click", e=>{ if(e.target===modal) hideModal(); });
+
+  const handlers = {
+    open: el => { const href = el.dataset.href || CFG.mapsUrl; openURL(href); },
+
+    whatsapp: () => {
+      showModal("WhatsApp (solo mensajes)",
+        `<p>Atendemos <strong>solo por mensajes</strong> de WhatsApp.<br>
+        <em>No se reciben llamadas por WhatsApp.</em></p>`,
+        ()=> {
+          const num  = CFG.whatsappNumero;
+          const text = encodeURIComponent(CFG.whatsappTexto);
+          openURL(`https://wa.me/${num}?text=${text}`);
+        });
+    },
+
+    horario: () => {
+      showModal("Horario de atención",
+        `<p><strong>Lunes a Jueves:</strong> 08:00 – 17:00 <span style="opacity:.85">(colación 14:00 – 15:00)</span></p>
+         <p><strong>Viernes:</strong> 08:00 – 14:00</p>
+         <p><strong>Sábado, Domingo y feriados:</strong> Cerrado</p>`);
+    },
+
+    vcard: () => {
+      const vcard =
+`BEGIN:VCARD
+VERSION:3.0
+N:${CFG.nombre};;;;
+FN:${CFG.nombre}
+TEL;CELL:${CFG.telefono}
+EMAIL:${CFG.correo}
+URL:${CFG.sitio}
+END:VCARD`;
+      const blob = new Blob([vcard], {type:"text/vcard;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "ElSenorDeLosScanner.vcf";
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+      showModal("Contacto guardado","Se descargó la ficha de contacto (vCard). Ábrela para añadirla a tu agenda.");
+    }
+  };
+
+  document.addEventListener("click", (e)=>{
+    const btn = e.target.closest("[data-action]");
+    if(!btn) return;
+    e.preventDefault();
+    const action = btn.dataset.action;
+    if(handlers[action]) handlers[action](btn);
+  });
+
+  // Año + enlaces de barra fija
+  document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("telLink").href = `tel:${CFG.telefono.replace(/\s+/g,'')}`;
+  document.getElementById("addrLink").href = CFG.mapsUrl;
+  document.getElementById("siteLink").href = CFG.sitio;
+</script>
+</body>
+</html>
