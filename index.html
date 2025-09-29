@@ -12,7 +12,6 @@
 <style>
   :root{
     --ink:#fff; --muted:#d9d9d9;
-    --panel:rgba(0,0,0,.55); --panel-strong:rgba(0,0,0,.72);
     --shadow:0 14px 32px rgba(0,0,0,.36);
 
     --btn-whatsapp:#25D366;
@@ -21,6 +20,7 @@
     --btn-green:#7cb342;
     --btn-purple:#8e44ad;
 
+    --gold:#d4af37;               /* DORADO */
     --raise: clamp(90px, 12vh, 180px);
   }
   *{box-sizing:border-box}
@@ -32,7 +32,7 @@
     position:fixed; inset:0;
   }
 
-  /* HERO */
+  /* ===== HERO ===== */
   .hero{
     position:relative;
     background:#0b0d0f url("img/portada-nueva.png") no-repeat right bottom/cover;
@@ -61,27 +61,27 @@
     .hero .container{ grid-template-columns:1fr; gap:16px; padding:18px 14px 22px; transform:none; }
   }
 
-  /* tarjeta con volteo */
+  /* ===== Tarjeta con volteo ===== */
   .card-wrap{ display:flex; align-items:stretch; min-height:420px; max-height:560px; }
-  .card-container { perspective:1400px; -webkit-perspective:1400px; width:100%; display:block; border-radius:16px; }
-  .card {
+  .card-container{ perspective:1400px; -webkit-perspective:1400px; width:100%; display:block; border-radius:16px; }
+  .card{
     width:100%; height:100%; position:relative;
     transform-style:preserve-3d; -webkit-transform-style:preserve-3d;
     transition:transform 640ms cubic-bezier(.2,.8,.2,1);
+    /* anti-flicker móviles */
     will-change: transform; transform: translateZ(0);
     backface-visibility:hidden; -webkit-backface-visibility:hidden;
   }
-  .card.flipped { transform: rotateY(180deg); }
+  .card.flipped{ transform: rotateY(180deg); }
 
-  .card-face {
+  .card-face{
     position:absolute; inset:0; display:flex;
     backface-visibility:hidden; -webkit-backface-visibility:hidden;
     transform: translateZ(0);
   }
-  .card-front {}
-  .card-back { transform:rotateY(180deg); }
+  .card-back{ transform:rotateY(180deg); }
 
-  /* LEFT: NEGRO translúcido */
+  /* ===== LEFT: negro translúcido ===== */
   .left{
     flex:1;
     padding:20px 18px;
@@ -110,17 +110,17 @@
   .sub{ margin:0; font-size:15px; color:var(--muted); }
   .div-line{ height:1px;background:rgba(255,255,255,.07); margin:6px auto 4px; max-width:220px; border-radius:2px; }
 
-  /* NUEVO: CTA más grande y llamativo */
+  /* ===== CTA dorada y llamativa ===== */
   .flip-hint{
     display:inline-flex; align-items:center; gap:10px;
-    font-size:17px; font-weight:700; letter-spacing:.2px;
-    color:#fff;
-    background:rgba(255,255,255,.10);
-    border:1px solid rgba(255,255,255,.22);
+    font-size:17px; font-weight:800; letter-spacing:.2px;
+    color:var(--gold);
+    background:rgba(212,175,55,.10);
+    border:1px solid rgba(212,175,55,.45);
     padding:10px 16px; border-radius:999px;
     margin:2px auto 0;
-    box-shadow: 0 10px 22px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.04);
-    text-shadow: 0 2px 10px rgba(0,0,0,.35);
+    box-shadow: 0 10px 22px rgba(0,0,0,.28), inset 0 0 0 1px rgba(212,175,55,.18);
+    text-shadow: 0 2px 10px rgba(0,0,0,.40);
     cursor:pointer; user-select:none;
     animation:pulse 2.2s ease-out infinite;
   }
@@ -133,16 +133,16 @@
   .flip-hint:active{ transform:translateY(0); }
 
   @keyframes pulse{
-    0%{ box-shadow: 0 0 0 0 rgba(255,255,255,.30), inset 0 0 0 1px rgba(255,255,255,.06); }
-    70%{ box-shadow: 0 0 0 12px rgba(255,255,255,0), inset 0 0 0 1px rgba(255,255,255,.06); }
-    100%{ box-shadow: 0 0 0 0 rgba(255,255,255,0), inset 0 0 0 1px rgba(255,255,255,.06); }
+    0%{ box-shadow: 0 0 0 0 rgba(212,175,55,.35), inset 0 0 0 1px rgba(212,175,55,.18); }
+    70%{ box-shadow: 0 0 0 12px rgba(212,175,55,0), inset 0 0 0 1px rgba(212,175,55,.18); }
+    100%{ box-shadow: 0 0 0 0 rgba(212,175,55,0), inset 0 0 0 1px rgba(212,175,55,.18); }
   }
   @keyframes wiggle{
     0%,100%{ transform:translateX(0); }
     50%{ transform:translateX(4px); }
   }
 
-  /* Reverso: lista de servicios */
+  /* ===== Reverso: servicios ===== */
   .services{ display:grid; gap:10px; text-align:left; margin-top:6px; overflow:auto; padding-right:6px; }
   .svc{
     display:grid; grid-template-columns:44px 1fr; gap:12px; align-items:flex-start;
@@ -157,7 +157,7 @@
   .svc h4{ margin:0; font-size:16px; font-weight:700; }
   .svc p{ margin:6px 0 0; font-size:13.5px; color:var(--muted); line-height:1.25; }
 
-  /* RIGHT */
+  /* ===== RIGHT ===== */
   .right{ display:flex; flex-direction:column; gap:12px; min-height:420px; }
   .title-box{
     background: linear-gradient(180deg, rgba(10,12,14,.72), rgba(15,21,29,.48));
@@ -168,7 +168,7 @@
   .title{ font-size:28px; font-weight:700; margin:0; text-shadow:0 6px 20px rgba(0,0,0,.55); }
   .subtitle{ font-size:14px; margin:6px 0 0; color:var(--muted); }
 
-  /* Botonera */
+  /* ===== Botonera ===== */
   .btns{ background:transparent; padding:6px 0; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; align-items:start; }
   .btn{ display:inline-flex; align-items:center; justify-content:center; padding:12px 14px; font-weight:700; font-size:16px; letter-spacing:.2px; color:#fff; text-decoration:none; border-radius:10px; box-shadow: 0 8px 18px rgba(0,0,0,.30); transition:transform .12s ease,filter .12s ease; cursor:pointer; min-height:46px; width:100%; max-width:220px; margin:0 auto; }
   .btn:hover{ transform:translateY(-2px); filter:saturate(1.05); }
@@ -179,14 +179,19 @@
   .btn-green{ background:var(--btn-green); }
   .btn-purple{ background:var(--btn-purple); }
 
-  /* infobar */
-  .infobar{ position:fixed; left:0; right:0; bottom:0; z-index:60; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:10px 14px; background:rgba(0,0,0,.72); backdrop-filter:saturate(1.2) blur(4px); color:#cfcfcf; font-size:13px; line-height:1.35; border-top:1px solid rgba(255,255,255,.06); }
-  .infobar a{ color:#e6e6e6; text-decoration:none; }
+  /* ===== Barra fija ===== */
+  .infobar{
+    position:fixed; left:0; right:0; bottom:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    padding:10px 14px; background:rgba(0,0,0,.72);
+    backdrop-filter:saturate(1.2) blur(4px);
+    color:#cfcfcf; font-size:13px; line-height:1.35;
+    border-top:1px solid rgba(255,255,255,.06);
+  }
   .infobar .left-mini{ opacity:.95; }
-  .infobar .right-mini{ display:flex; gap:12px; flex-wrap:wrap; }
-  .infobar .dot{ opacity:.5; }
+  .infobar .right-mini{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
 
-  /* modal */
+  /* ===== Modal ===== */
   .modal{ position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.55); z-index:80; }
   .modal.open{ display:grid; }
   .box{ width:min(520px,92vw); background:#0f151d; border:1px solid #223042; border-radius:18px; box-shadow:var(--shadow); padding:18px; color:#eaf2ff; }
@@ -194,7 +199,7 @@
   .btn-mini{ appearance:none; border:none; border-radius:10px; padding:10px 14px; color:#fff; cursor:pointer; background:#1f2a38; }
   .btn-mini.ok{ background:#2ecc71; }
 
-  /* celular */
+  /* ===== Celular ===== */
   @media (max-width:430px){
     html, body{ height:auto; overflow:auto; }
     body{ position:static; padding-bottom:82px; }
@@ -213,13 +218,13 @@
     .subtitle{ font-size:13px; }
     .btns{ grid-template-columns:1fr; gap:10px; padding:2px 0; }
     .btn{ max-width:none; width:100%; min-height:46px; font-size:15px; padding:11px 14px; border-radius:10px; box-shadow: 0 6px 14px rgba(0,0,0,.22); }
-    .flip-hint{ font-size:18px; padding:12px 18px; } /* un poco más grande en móvil */
+    .flip-hint{ font-size:18px; padding:12px 18px; }
   }
 </style>
 </head>
 <body>
 
-  <!-- HERO -->
+  <!-- ===== HERO ===== -->
   <section class="hero" role="banner">
     <div class="container">
 
@@ -236,8 +241,6 @@
                 <h3 class="h3">Scanner Automotriz</h3>
                 <p class="sub">Scanner automotriz para todo vehículo</p>
                 <div class="div-line"></div>
-
-                <!-- CTA más llamativa -->
                 <p class="flip-hint"><span class="arrow">➜</span> Haz clic para ver nuestros servicios</p>
               </div>
             </div>
@@ -328,20 +331,15 @@
     </div>
   </section>
 
-  <!-- Barra fija -->
+  <!-- ===== Barra fija (solo crédito) ===== -->
   <div class="infobar" role="contentinfo">
     <div class="left-mini">© <span id="year"></span> El Señor de los Scanner</div>
     <div class="right-mini">
-      <span class="dot">•</span>
-    
-      <span class="dot">•</span>
-      <a id="siteLink" href="https://www.elsenordelosescaner.cl" target="_blank" rel="noopener">🌐 Sitio web</a>
-      <span class="dot">•</span>
       <span>Hecho por <strong>Benjamín González</strong></span>
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- ===== Modal ===== -->
   <div class="modal" id="modal" aria-hidden="true">
     <div class="box" role="dialog" aria-modal="true">
       <h3 id="modalTitle">Aviso</h3>
@@ -424,7 +422,7 @@ END:VCARD`;
     if(e.key === "Enter" || e.key === " "){ e.preventDefault(); toggleFlip(); }
   });
 
-  // Delegación botones
+  // Delegación de botones
   document.addEventListener("click", (e)=>{
     const btn = e.target.closest("[data-action]");
     if(!btn) return;
@@ -434,9 +432,8 @@ END:VCARD`;
   });
 
   // Footer dinámico
-  $("#year").textContent = new Date().getFullYear();
-  $("#addrLink").href = CFG.mapsUrl;
-  $("#siteLink").href = CFG.sitio;
+  const y = document.getElementById("year");
+  if(y) y.textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
