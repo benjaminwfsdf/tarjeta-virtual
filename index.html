@@ -63,19 +63,29 @@
 
   /* tarjeta con volteo */
   .card-wrap{ display:flex; align-items:stretch; min-height:420px; max-height:560px; }
-  .card-container { perspective:1400px; width:100%; display:block; border-radius:16px; }
-  .card { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform 640ms cubic-bezier(.2,.8,.2,1); }
+  .card-container { perspective:1400px; -webkit-perspective:1400px; width:100%; display:block; border-radius:16px; }
+  .card {
+    width:100%; height:100%; position:relative;
+    transform-style:preserve-3d; -webkit-transform-style:preserve-3d;
+    transition:transform 640ms cubic-bezier(.2,.8,.2,1);
+    /* anti-flicker en móviles */
+    will-change: transform; transform: translateZ(0);
+    backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  }
   .card.flipped { transform: rotateY(180deg); }
 
-  .card-face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; display:flex; }
+  .card-face {
+    position:absolute; inset:0; display:flex;
+    backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    transform: translateZ(0);
+  }
   .card-front {}
   .card-back { transform:rotateY(180deg); }
 
-  /* LEFT: ahora NEGRO translúcido */
+  /* LEFT: NEGRO translúcido */
   .left{
     flex:1;
     padding:20px 18px;
-    /* fondo negro translúcido elegante */
     background: linear-gradient(180deg, rgba(0,0,0,0.70), rgba(0,0,0,0.58));
     border:1px solid rgba(255,255,255,0.06);
     border-radius:14px;
@@ -84,6 +94,8 @@
     text-align:center;
     display:flex; flex-direction:column; gap:12px;
     color:var(--ink);
+    /* evita que los hijos “sangren” durante la rotación */
+    backface-visibility:hidden; -webkit-backface-visibility:hidden;
   }
   .left .logo{ display:flex; justify-content:center; }
   .left .logo img{
@@ -91,6 +103,10 @@
     box-shadow: 0 8px 26px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.02);
     background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00));
     padding:8px;
+    /* anti-flicker específico de imágenes en iOS/Android */
+    backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    transform: translateZ(0); -webkit-transform: translateZ(0);
+    will-change: transform;
   }
 
   .h3{ margin:0; font-size:34px; line-height:1.05; font-weight:700; text-shadow: 0 4px 18px rgba(0,0,0,.6); }
@@ -204,7 +220,6 @@
                 <div class="div-line"></div>
 
                 <div class="services" role="list">
-                  <!-- Scanner -->
                   <article class="svc" role="listitem">
                     <div class="ico">🔍</div>
                     <div>
@@ -213,7 +228,6 @@
                     </div>
                   </article>
 
-                  <!-- Reparación de computadores -->
                   <article class="svc" role="listitem">
                     <div class="ico">🧰</div>
                     <div>
@@ -222,7 +236,6 @@
                     </div>
                   </article>
 
-                  <!-- Limpieza de inyectores -->
                   <article class="svc" role="listitem">
                     <div class="ico">💧</div>
                     <div>
@@ -231,7 +244,6 @@
                     </div>
                   </article>
 
-                  <!-- Copia de llave con chip (nuevo añadido) -->
                   <article class="svc" role="listitem">
                     <div class="ico">🔑</div>
                     <div>
@@ -240,7 +252,6 @@
                     </div>
                   </article>
 
-                  <!-- Conócenos -->
                   <article class="svc" role="listitem">
                     <div class="ico">🏁</div>
                     <div>
@@ -295,6 +306,8 @@
       <a id="addrLink" href="#" target="_blank" rel="noopener">📍 Pasaje Iquitos 229, Lo Prado, Santiago</a>
       <span class="dot">•</span>
       <a id="siteLink" href="https://www.elsenordelosescaner.cl" target="_blank" rel="noopener">🌐 Sitio web</a>
+      <span class="dot">•</span>
+      <span>Hecho por <strong>Benjamín González</strong></span>
     </div>
   </div>
 
@@ -372,7 +385,7 @@ END:VCARD`;
     }
   };
 
-  // Flip (click + keyboard)
+  // Flip (click + teclado)
   const flipCardBtn = $("#flipCardBtn");
   const flipCard = $("#flipCard");
   const toggleFlip = ()=> flipCard.classList.toggle("flipped");
@@ -381,7 +394,7 @@ END:VCARD`;
     if(e.key === "Enter" || e.key === " "){ e.preventDefault(); toggleFlip(); }
   });
 
-  // Delegación eventos botones
+  // Delegación botones
   document.addEventListener("click", (e)=>{
     const btn = e.target.closest("[data-action]");
     if(!btn) return;
