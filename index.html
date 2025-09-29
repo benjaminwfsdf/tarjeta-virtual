@@ -125,9 +125,15 @@
   .flip-hint .arrow{
     color:var(--gold);               /* flecha dorada */
     display:inline-block; transform-origin:left center;
-    animation:wiggle 1.6s ease-in-out infinite;
+    animation:wiggleR 1.6s ease-in-out infinite; /* movimiento hacia la derecha */
     opacity:.95;
   }
+  /* misma flecha ➜ pero espejada para "volver" */
+  .flip-hint .arrow.back{
+    transform:scaleX(-1);            /* espejo horizontal */
+    animation:wiggleL 1.6s ease-in-out infinite; /* movimiento hacia la izquierda */
+  }
+
   .flip-hint:hover{ filter:saturate(1.06); transform:translateY(-1px); }
   .flip-hint:active{ transform:translateY(0); }
 
@@ -136,10 +142,8 @@
     70%{ box-shadow:0 0 0 14px rgba(212,175,55,0), 0 0 12px rgba(212,175,55,.18); }
     100%{ box-shadow:0 0 0 0 rgba(212,175,55,0), 0 0 12px rgba(212,175,55,.18); }
   }
-  @keyframes wiggle{
-    0%,100%{ transform:translateX(0); }
-    50%{ transform:translateX(4px); }
-  }
+  @keyframes wiggleR{ 0%,100%{transform:translateX(0);} 50%{transform:translateX(4px);} }
+  @keyframes wiggleL{ 0%,100%{transform:translateX(0);} 50%{transform:translateX(-4px);} }
 
   /* ===== Reverso: servicios ===== */
   .services{ display:grid; gap:10px; text-align:left; margin-top:6px; overflow:auto; padding-right:6px; }
@@ -294,7 +298,8 @@
                 </div>
 
                 <div class="div-line"></div>
-                <p class="flip-hint"><span class="arrow">➜</span> Haz clic nuevamente para volver</p>
+                <!-- Flecha igual (➜) pero espejada hacia la izquierda -->
+                <p class="flip-hint"><span class="arrow back">➜</span> Haz clic nuevamente para volver</p>
               </div>
             </div>
           </div>
