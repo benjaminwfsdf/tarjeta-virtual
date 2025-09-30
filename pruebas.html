@@ -7,47 +7,99 @@
   <title>Pong Gold - 2 Jugadores (Vertical)</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root{
+      /* altura reservada para el footer fijo (J2) */
+      --footer-h: 132px;
+    }
     *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
     html,body{width:100%;height:100%;overflow:hidden;background:#000;color:#FFD700;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
-    body{display:flex;flex-direction:column;align-items:center;gap:8px;
-         padding:env(safe-area-inset-top) 10px env(safe-area-inset-bottom)}
-    .container{width:100%;max-width:800px;height:100dvh;display:flex;flex-direction:column;gap:8px;justify-content:space-between}
+    body{
+      display:flex;flex-direction:column;align-items:center;gap:8px;
+      padding:env(safe-area-inset-top) 10px env(safe-area-inset-bottom);
+      -webkit-touch-callout:none;
+    }
+
+    /* Alto real del viewport en móviles modernos */
+    .container{
+      width:100%;max-width:800px;height:100dvh;display:flex;flex-direction:column;gap:8px;justify-content:space-between;
+      padding-bottom:calc(var(--footer-h) + env(safe-area-inset-bottom) + 12px); /* deja espacio al footer fijo */
+    }
+    @supports (height: 100svh){ .container{ height:100svh; } }
+
     .header{width:100%;text-align:center;padding:6px 10px}
     h1{font-size:2rem;background:linear-gradient(45deg,#FFD700,#FFA500);
        -webkit-background-clip:text;-webkit-text-fill-color:transparent;
        text-shadow:0 0 15px rgba(255,215,0,.5)}
     .subtitle{font-size:.9rem;color:#b8860b}
-    .score-board{display:flex;justify-content:space-between;gap:10px;align-items:center;width:100%;
-                 background:linear-gradient(135deg,#1a1a1a,#000);padding:8px 12px;border-radius:10px;border:2px solid #FFD700;
-                 font-size:1rem;font-weight:bold}
+
+    .score-board{
+      display:flex;justify-content:space-between;gap:10px;align-items:center;width:100%;
+      background:linear-gradient(135deg,#1a1a1a,#000);padding:8px 12px;border-radius:10px;border:2px solid #FFD700;
+      font-size:1rem;font-weight:bold
+    }
     .player-score{display:flex;flex-direction:column;align-items:center}
     .score-label{font-size:.8rem;color:#b8860b;margin-bottom:2px}
     .score-value{font-size:1.4rem;color:#FFD700}
+
     .game-area{flex:1;position:relative;display:flex;flex-direction:column;gap:6px}
     canvas{width:100%;height:100%;border:2px solid #FFD700;border-radius:10px;background:#000;display:block}
-    .controls-row{display:flex;justify-content:space-between;gap:10px;width:100%}
-    .player-controls{display:flex;flex-direction:column;align-items:center;flex:1}
-    .control-label{font-size:.8rem;color:#b8860b;margin-bottom:4px;text-align:center}
-    .arrows{display:flex;gap:8px}
-    .arrow-btn{width:58px;height:58px;background:linear-gradient(135deg,#1a1a1a,#000);
-               border:2px solid #FFD700;border-radius:12px;display:flex;align-items:center;justify-content:center;
-               font-size:1.3rem;color:#FFD700;touch-action:none}
+
+    /* Controles J1 (arriba) */
+    .controls-row{display:flex;justify-content:center;gap:10px;width:100%}
+    .player-controls{display:flex;flex-direction:column;align-items:center}
+    .control-label{font-size:.8rem;color:#b8860b;margin-bottom:6px;text-align:center}
+    .arrows{display:flex;gap:12px}
+    .arrow-btn{
+      width:60px;height:60px;background:linear-gradient(135deg,#1a1a1a,#000);
+      border:2px solid #FFD700;border-radius:14px;display:flex;align-items:center;justify-content:center;
+      font-size:1.35rem;color:#FFD700;touch-action:none;
+      box-shadow:0 8px 16px rgba(0,0,0,.45);
+    }
     .arrow-btn:active{background:linear-gradient(135deg,#FFD700,#b8860b);color:#000}
+
+    /* Controles J2 FIJOS y GRANDES al fondo */
+    .footer-controls{
+      position:fixed;left:0;right:0;
+      bottom:calc(env(safe-area-inset-bottom) + 8px);
+      display:flex;justify-content:center;z-index:5;
+      pointer-events:none; /* el wrapper no bloquea; solo los botones capturan */
+    }
+    .footer-controls .wrap{
+      pointer-events:auto;display:flex;flex-direction:column;align-items:center;gap:8px;
+      padding:6px 12px;border-radius:16px;
+      background:linear-gradient(180deg, rgba(0,0,0,.0) 0%, rgba(0,0,0,.35) 30%, rgba(0,0,0,.65) 100%);
+      backdrop-filter: blur(2px);
+    }
+    .footer-controls .control-label{margin:0;color:#d7a315}
+    .footer-controls .arrow-btn{ width:76px; height:76px; font-size:1.5rem; border-radius:16px; }
+
     .controls{display:flex;gap:8px;width:100%}
     .btn{flex:1;background:linear-gradient(135deg,#FFD700,#b8860b);border:none;color:#000;
          padding:10px 6px;font-size:.95rem;font-weight:bold;border-radius:8px;cursor:pointer;min-height:46px;
          display:flex;align-items:center;justify-content:center;gap:6px}
     .btn:active{transform:scale(.98)}
+
     .game-over{position:absolute;inset:0;display:none;place-items:center;z-index:100}
     .game-over .panel{background:rgba(0,0,0,.95);padding:18px 16px;border-radius:14px;border:2px solid #FFD700;
                       text-align:center;width:90%;max-width:320px}
     .game-over h2{font-size:1.3rem;margin-bottom:10px;color:#FFD700}
     .winner{font-size:1.05rem;margin-bottom:12px;color:#FFD700}
+
     .particles{position:fixed;inset:0;pointer-events:none;z-index:-1}
     .particle{position:absolute;background:#FFD700;border-radius:50%;opacity:.3;animation:float 15s infinite linear}
     @keyframes float{0%{transform:translateY(100vh) rotate(0)}100%{transform:translateY(-100px) rotate(360deg)}}
-    @media (max-height:740px){.arrow-btn{width:52px;height:52px;font-size:1.15rem}.btn{min-height:42px;font-size:.9rem}h1{font-size:1.7rem}}
-    @media (max-height:620px){.arrow-btn{width:46px;height:46px;font-size:1.05rem}.score-value{font-size:1.2rem}}
+
+    @media (max-height:740px){
+      .arrow-btn{width:56px;height:56px}
+      .footer-controls .arrow-btn{width:72px;height:72px}
+      .btn{min-height:42px;font-size:.9rem}
+      h1{font-size:1.7rem}
+    }
+    @media (max-height:620px){
+      .arrow-btn{width:52px;height:52px}
+      .footer-controls .arrow-btn{width:68px;height:68px}
+      .score-value{font-size:1.2rem}
+    }
   </style>
 </head>
 <body oncontextmenu="return false">
@@ -93,21 +145,22 @@
       </div>
     </div>
 
-    <!-- Controles J2 (ABAJO) -->
-    <div class="controls-row">
-      <div class="player-controls">
-        <div class="control-label">JUGADOR 2</div>
-        <div class="arrows">
-          <button class="arrow-btn" id="p2-left"  aria-label="J2 Izquierda"><i class="fas fa-arrow-left"></i></button>
-          <button class="arrow-btn" id="p2-right" aria-label="J2 Derecha"><i class="fas fa-arrow-right"></i></button>
-        </div>
-      </div>
-    </div>
-
+    <!-- Botonera principal (debajo del canvas) -->
     <div class="controls">
       <button class="btn" id="startButton"><i class="fas fa-play"></i> INICIAR</button>
       <button class="btn" id="pauseButton"><i class="fas fa-pause"></i> PAUSAR</button>
       <button class="btn" id="resetButton"><i class="fas fa-undo"></i> REINICIAR</button>
+    </div>
+  </div>
+
+  <!-- CONTROLES J2 (FIJOS) -->
+  <div class="footer-controls" aria-hidden="false">
+    <div class="wrap">
+      <div class="control-label">JUGADOR 2</div>
+      <div class="arrows">
+        <button class="arrow-btn" id="p2-left"  aria-label="J2 Izquierda"><i class="fas fa-arrow-left"></i></button>
+        <button class="arrow-btn" id="p2-right" aria-label="J2 Derecha"><i class="fas fa-arrow-right"></i></button>
+      </div>
     </div>
   </div>
 
@@ -137,6 +190,7 @@
     const gameOver=document.getElementById('gameOver');
     const winnerMsg=document.getElementById('winnerMessage');
     const restartBtn=document.getElementById('restartButton');
+
     const p1Left=document.getElementById('p1-left');
     const p1Right=document.getElementById('p1-right');
     const p2Left=document.getElementById('p2-left');
@@ -292,7 +346,7 @@
     function bindPress(btn, on, off){
       btn.addEventListener('pointerdown', e=>{
         e.preventDefault(); btn.setPointerCapture(e.pointerId);
-        on(); if(!running) startGame();                 // <-- auto-inicio al tocar flecha
+        on(); if(!running) startGame();
       });
       btn.addEventListener('pointerup',   ()=>off());
       btn.addEventListener('pointercancel',()=>off());
@@ -339,7 +393,7 @@
       createParticles();
       resizeCanvas();
       initGame();
-      startGame(); // <-- inicio automático al cargar
+      startGame(); // inicio automático
     });
     window.addEventListener('resize', resizeCanvas);
   </script>
