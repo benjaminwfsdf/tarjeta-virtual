@@ -2,136 +2,205 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pong Clásico</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pong Gold - Móvil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         body {
-            font-family: 'Courier New', monospace;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            color: #FFD700;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            touch-action: manipulation;
+            padding: 10px;
         }
 
         .container {
+            width: 100%;
+            max-width: 500px;
             text-align: center;
-            max-width: 800px;
-            padding: 20px;
+        }
+
+        .header {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #1a1a1a, #000000);
+            border-radius: 20px;
+            border: 2px solid #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
 
         h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-            letter-spacing: 3px;
+            font-size: 2.8rem;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            letter-spacing: 2px;
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #a0a0ff;
-        }
-
-        .game-container {
-            position: relative;
-            margin: 20px auto;
-            border: 4px solid #00ffff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-            overflow: hidden;
-        }
-
-        canvas {
-            background: #000;
-            display: block;
+            font-size: 1rem;
+            color: #b8860b;
+            margin-bottom: 10px;
         }
 
         .score-board {
             display: flex;
             justify-content: space-between;
-            width: 600px;
-            margin: 0 auto 20px;
-            font-size: 2rem;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: 2px solid #00ffff;
+            background: linear-gradient(135deg, #1a1a1a, #000000);
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 2px solid #FFD700;
+            margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+            font-size: 1.5rem;
+            font-weight: bold;
         }
 
         .player-score, .cpu-score {
-            text-shadow: 0 0 10px #ff00ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            color: #b8860b;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            font-size: 2rem;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .game-container {
+            position: relative;
+            margin: 0 auto 20px;
+            border: 3px solid #FFD700;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+            background: #000;
+            touch-action: none;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            background: #000;
         }
 
         .controls {
             display: flex;
-            gap: 20px;
-            margin-top: 20px;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        button {
-            background: linear-gradient(135deg, #ff00ff, #00ffff);
+        .btn {
+            background: linear-gradient(135deg, #FFD700, #b8860b);
             border: none;
             color: #000;
-            padding: 12px 25px;
+            padding: 14px 25px;
             font-size: 1.1rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            flex: 1;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        button:hover {
+        .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
 
-        button:active {
+        .btn:active {
             transform: translateY(1px);
         }
 
+        .btn-pause {
+            background: linear-gradient(135deg, #b8860b, #8B6914);
+        }
+
+        .touch-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .touch-area {
+            height: 120px;
+            background: linear-gradient(135deg, #1a1a1a, #000000);
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #b8860b;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+            touch-action: none;
+        }
+
+        .touch-area i {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .touch-area span {
+            display: block;
+            font-size: 0.9rem;
+        }
+
         .instructions {
-            margin-top: 30px;
-            background: rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, #1a1a1a, #000000);
             padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #00ffff;
-            max-width: 600px;
+            border-radius: 15px;
+            border: 2px solid #FFD700;
+            margin-top: 20px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
         }
 
         .instructions h2 {
-            color: #00ffff;
-            margin-bottom: 10px;
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
         }
 
         .instructions p {
-            margin: 8px 0;
+            margin: 10px 0;
             line-height: 1.5;
-        }
-
-        .keys {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .key {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 15px;
-            border-radius: 5px;
-            border: 1px solid #00ffff;
-            font-weight: bold;
+            color: #b8860b;
         }
 
         .game-over {
@@ -139,80 +208,166 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             padding: 30px;
-            border-radius: 15px;
-            border: 3px solid #ff00ff;
+            border-radius: 20px;
+            border: 3px solid #FFD700;
             text-align: center;
             z-index: 10;
             display: none;
+            width: 90%;
+            max-width: 350px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
         }
 
         .game-over h2 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 20px;
-            color: #ff00ff;
-            text-shadow: 0 0 10px #ff00ff;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
         .winner {
             font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: #00ffff;
+            margin-bottom: 25px;
+            color: #FFD700;
         }
 
         .difficulty {
             margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .difficulty label {
-            margin-right: 10px;
+            color: #b8860b;
+            font-weight: bold;
         }
 
         .difficulty select {
             background: #000;
-            color: #fff;
-            border: 1px solid #00ffff;
-            padding: 5px;
-            border-radius: 5px;
+            color: #FFD700;
+            border: 2px solid #FFD700;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-weight: bold;
         }
 
-        @media (max-width: 650px) {
-            .game-container, .score-board {
-                width: 95%;
-            }
-            
-            canvas {
-                width: 100%;
-            }
-            
+        .power-ups {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .power-up {
+            background: linear-gradient(135deg, #1a1a1a, #000000);
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            padding: 10px;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .power-up span {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            color: #b8860b;
+        }
+
+        @media (max-width: 500px) {
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .score-board {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+                padding: 12px 20px;
+            }
+            
+            .score-value {
+                font-size: 1.7rem;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            
+            .touch-area {
+                height: 100px;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .container {
+                transform: scale(0.9);
+            }
+        }
+
+        /* Efectos de partículas doradas */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: #FFD700;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
             }
         }
     </style>
 </head>
 <body>
+    <div class="particles" id="particles"></div>
+    
     <div class="container">
-        <h1>PONG</h1>
-        <p class="subtitle">El clásico juego de arcade</p>
+        <div class="header">
+            <h1>PONG GOLD</h1>
+            <p class="subtitle">Juego clásico optimizado para móvil</p>
+        </div>
         
         <div class="score-board">
-            <div class="player-score">JUGADOR: <span id="player-score">0</span></div>
-            <div class="cpu-score">CPU: <span id="cpu-score">0</span></div>
+            <div class="player-score">
+                <div class="score-label">JUGADOR</div>
+                <div class="score-value" id="player-score">0</div>
+            </div>
+            <div class="cpu-score">
+                <div class="score-label">CPU</div>
+                <div class="score-value" id="cpu-score">0</div>
+            </div>
         </div>
         
         <div class="game-container">
-            <canvas id="pongCanvas" width="600" height="400"></canvas>
+            <canvas id="pongCanvas" width="450" height="600"></canvas>
             
             <div class="game-over" id="gameOver">
                 <h2>JUEGO TERMINADO</h2>
                 <div class="winner" id="winnerMessage"></div>
-                <button id="restartButton">JUGAR DE NUEVO</button>
+                <button class="btn" id="restartButton"><i class="fas fa-redo"></i> JUGAR DE NUEVO</button>
             </div>
         </div>
         
@@ -222,30 +377,59 @@
                 <option value="easy">Fácil</option>
                 <option value="medium" selected>Medio</option>
                 <option value="hard">Difícil</option>
-                <option value="impossible">Imposible</option>
             </select>
         </div>
         
         <div class="controls">
-            <button id="startButton">INICIAR JUEGO</button>
-            <button id="pauseButton">PAUSAR</button>
-            <button id="resetButton">REINICIAR</button>
+            <button class="btn" id="startButton"><i class="fas fa-play"></i> INICIAR</button>
+            <button class="btn btn-pause" id="pauseButton"><i class="fas fa-pause"></i> PAUSAR</button>
+            <button class="btn" id="resetButton"><i class="fas fa-undo"></i> REINICIAR</button>
+        </div>
+        
+        <div class="touch-controls">
+            <div class="touch-area" id="upControl">
+                <div>
+                    <i class="fas fa-arrow-up"></i>
+                    <span>DESLIZA HACIA ARRIBA</span>
+                </div>
+            </div>
+            <div class="touch-area" id="downControl">
+                <div>
+                    <i class="fas fa-arrow-down"></i>
+                    <span>DESLIZA HACIA ABAJO</span>
+                </div>
+            </div>
         </div>
         
         <div class="instructions">
             <h2>CÓMO JUGAR</h2>
-            <p>Usa las teclas <strong>W</strong> y <strong>S</strong> para mover tu paleta hacia arriba y abajo.</p>
-            <p>El objetivo es devolver la pelota y hacer que el oponente no pueda alcanzarla.</p>
-            <p>El primero en llegar a 5 puntos gana el juego.</p>
-            
-            <div class="keys">
-                <div class="key">W</div>
-                <div class="key">S</div>
-            </div>
+            <p>Desliza tu dedo en las áreas de control para mover tu paleta</p>
+            <p>El objetivo es devolver la pelota y hacer puntos</p>
+            <p>El primero en llegar a 7 puntos gana el juego</p>
         </div>
     </div>
 
     <script>
+        // Crear partículas doradas
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${15 + Math.random() * 10}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
         // Elementos del DOM
         const canvas = document.getElementById('pongCanvas');
         const ctx = canvas.getContext('2d');
@@ -258,6 +442,8 @@
         const winnerMessageElem = document.getElementById('winnerMessage');
         const restartButton = document.getElementById('restartButton');
         const difficultySelect = document.getElementById('difficulty');
+        const upControl = document.getElementById('upControl');
+        const downControl = document.getElementById('downControl');
 
         // Variables del juego
         let playerScore = 0;
@@ -265,45 +451,67 @@
         let gameRunning = false;
         let gamePaused = false;
         let animationId;
+        let touchY = 0;
+        let isTouching = false;
 
         // Configuración del juego
-        const paddleWidth = 10;
-        const paddleHeight = 100;
-        const ballSize = 10;
-        const winningScore = 5;
+        const paddleWidth = 12;
+        const paddleHeight = 120;
+        const ballSize = 14;
+        const winningScore = 7;
 
         // Posiciones iniciales
         let playerY = canvas.height / 2 - paddleHeight / 2;
         let cpuY = canvas.height / 2 - paddleHeight / 2;
         let ballX = canvas.width / 2;
         let ballY = canvas.height / 2;
-        let ballSpeedX = 5;
-        let ballSpeedY = 5;
+        let ballSpeedX = 6;
+        let ballSpeedY = 6;
 
         // Velocidades según dificultad
         const difficultySpeeds = {
-            easy: 4,
-            medium: 6,
-            hard: 8,
-            impossible: 10
+            easy: 5,
+            medium: 7,
+            hard: 9
         };
 
-        // Teclas presionadas
-        const keys = {
-            w: false,
-            s: false
-        };
+        // Controles táctiles
+        upControl.addEventListener('touchstart', handleTouchStart);
+        upControl.addEventListener('touchmove', handleTouchMove);
+        upControl.addEventListener('touchend', handleTouchEnd);
+        
+        downControl.addEventListener('touchstart', handleTouchStart);
+        downControl.addEventListener('touchmove', handleTouchMove);
+        downControl.addEventListener('touchend', handleTouchEnd);
 
-        // Event listeners para teclado
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'w' || e.key === 'W') keys.w = true;
-            if (e.key === 's' || e.key === 'S') keys.s = true;
-        });
+        function handleTouchStart(e) {
+            e.preventDefault();
+            isTouching = true;
+            const touch = e.touches[0];
+            touchY = touch.clientY;
+        }
 
-        document.addEventListener('keyup', (e) => {
-            if (e.key === 'w' || e.key === 'W') keys.w = false;
-            if (e.key === 's' || e.key === 'S') keys.s = false;
-        });
+        function handleTouchMove(e) {
+            if (!isTouching || !gameRunning || gamePaused) return;
+            
+            e.preventDefault();
+            const touch = e.touches[0];
+            const deltaY = touch.clientY - touchY;
+            
+            // Mover la paleta según el desplazamiento
+            playerY += deltaY * 1.5;
+            
+            // Limitar movimiento
+            if (playerY < 0) playerY = 0;
+            if (playerY > canvas.height - paddleHeight) playerY = canvas.height - paddleHeight;
+            
+            touchY = touch.clientY;
+        }
+
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            isTouching = false;
+        }
 
         // Botones de control
         startButton.addEventListener('click', startGame);
@@ -324,6 +532,10 @@
         function togglePause() {
             if (gameRunning) {
                 gamePaused = !gamePaused;
+                pauseButton.innerHTML = gamePaused ? 
+                    '<i class="fas fa-play"></i> REANUDAR' : 
+                    '<i class="fas fa-pause"></i> PAUSAR';
+                    
                 if (!gamePaused) {
                     gameLoop();
                 }
@@ -344,7 +556,8 @@
             }
             
             gameOverElem.style.display = 'none';
-            draw(); // Redibujar el estado inicial
+            pauseButton.innerHTML = '<i class="fas fa-pause"></i> PAUSAR';
+            draw();
         }
 
         function restartGame() {
@@ -373,10 +586,10 @@
                 gameOverElem.style.display = 'block';
                 if (playerScore >= winningScore) {
                     winnerMessageElem.textContent = '¡FELICIDADES! HAS GANADO';
-                    winnerMessageElem.style.color = '#00ff00';
+                    winnerMessageElem.style.color = '#FFD700';
                 } else {
                     winnerMessageElem.textContent = 'LA CPU HA GANADO';
-                    winnerMessageElem.style.color = '#ff0000';
+                    winnerMessageElem.style.color = '#b8860b';
                 }
             }
         }
@@ -390,21 +603,13 @@
         }
 
         function update() {
-            // Movimiento del jugador
-            if (keys.w && playerY > 0) {
-                playerY -= 7;
-            }
-            if (keys.s && playerY < canvas.height - paddleHeight) {
-                playerY += 7;
-            }
-            
             // Movimiento de la CPU según dificultad
-            const cpuSpeed = difficultySpeeds[difficultySelect.value] * 0.8;
+            const cpuSpeed = difficultySpeeds[difficultySelect.value] * 0.9;
             const cpuCenter = cpuY + paddleHeight / 2;
             
-            if (cpuCenter < ballY - 10) {
+            if (cpuCenter < ballY - 15) {
                 cpuY += cpuSpeed;
-            } else if (cpuCenter > ballY + 10) {
+            } else if (cpuCenter > ballY + 15) {
                 cpuY -= cpuSpeed;
             }
             
@@ -419,42 +624,41 @@
             // Rebote en las paredes superior e inferior
             if (ballY < 0 || ballY > canvas.height - ballSize) {
                 ballSpeedY = -ballSpeedY;
-                
-                // Efecto de sonido simulado
-                beep(100, 50, 0.1);
             }
             
             // Rebote en las paletas
             // Jugador
             if (
                 ballX < paddleWidth &&
-                ballY > playerY &&
+                ballY + ballSize > playerY &&
                 ballY < playerY + paddleHeight
             ) {
-                ballSpeedX = -ballSpeedX;
-                
-                // Añadir efecto según dónde golpee la pelota
+                // Ajustar ángulo según dónde golpee la pelota
                 const hitPos = (ballY - playerY) / paddleHeight;
-                ballSpeedY = (hitPos - 0.5) * 10;
+                const angle = (hitPos - 0.5) * Math.PI / 2;
                 
-                // Efecto de sonido simulado
-                beep(200, 100, 0.2);
+                ballSpeedX = Math.cos(angle) * difficultySpeeds[difficultySelect.value];
+                ballSpeedY = Math.sin(angle) * difficultySpeeds[difficultySelect.value];
+                
+                // Asegurar que la pelota se mueva hacia la derecha
+                ballSpeedX = Math.abs(ballSpeedX);
             }
             
             // CPU
             if (
                 ballX > canvas.width - paddleWidth - ballSize &&
-                ballY > cpuY &&
+                ballY + ballSize > cpuY &&
                 ballY < cpuY + paddleHeight
             ) {
-                ballSpeedX = -ballSpeedX;
-                
-                // Añadir efecto según dónde golpee la pelota
+                // Ajustar ángulo según dónde golpee la pelota
                 const hitPos = (ballY - cpuY) / paddleHeight;
-                ballSpeedY = (hitPos - 0.5) * 10;
+                const angle = (hitPos - 0.5) * Math.PI / 2;
                 
-                // Efecto de sonido simulado
-                beep(200, 100, 0.2);
+                ballSpeedX = Math.cos(angle) * difficultySpeeds[difficultySelect.value];
+                ballSpeedY = Math.sin(angle) * difficultySpeeds[difficultySelect.value];
+                
+                // Asegurar que la pelota se mueva hacia la izquierda
+                ballSpeedX = -Math.abs(ballSpeedX);
             }
             
             // Puntuación
@@ -472,76 +676,84 @@
         }
 
         function draw() {
-            // Fondo
-            ctx.fillStyle = '#000';
+            // Fondo con degradado oscuro
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, "#0a0a0a");
+            gradient.addColorStop(1, "#000000");
+            ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Línea central punteada
-            ctx.setLineDash([5, 15]);
+            // Línea central punteada dorada
+            ctx.setLineDash([8, 15]);
             ctx.beginPath();
             ctx.moveTo(canvas.width / 2, 0);
             ctx.lineTo(canvas.width / 2, canvas.height);
-            ctx.strokeStyle = '#444';
+            ctx.strokeStyle = "#FFD700";
+            ctx.lineWidth = 2;
             ctx.stroke();
             ctx.setLineDash([]);
             
-            // Paleta del jugador
-            ctx.fillStyle = '#00ffff';
+            // Paleta del jugador (dorado)
+            const playerGradient = ctx.createLinearGradient(0, playerY, 0, playerY + paddleHeight);
+            playerGradient.addColorStop(0, "#FFD700");
+            playerGradient.addColorStop(1, "#b8860b");
+            ctx.fillStyle = playerGradient;
             ctx.fillRect(0, playerY, paddleWidth, paddleHeight);
             
-            // Paleta de la CPU
-            ctx.fillStyle = '#ff00ff';
+            // Borde de la paleta del jugador
+            ctx.strokeStyle = "#000";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(0, playerY, paddleWidth, paddleHeight);
+            
+            // Paleta de la CPU (dorado oscuro)
+            const cpuGradient = ctx.createLinearGradient(canvas.width - paddleWidth, cpuY, canvas.width, cpuY + paddleHeight);
+            cpuGradient.addColorStop(0, "#b8860b");
+            cpuGradient.addColorStop(1, "#8B6914");
+            ctx.fillStyle = cpuGradient;
             ctx.fillRect(canvas.width - paddleWidth, cpuY, paddleWidth, paddleHeight);
             
-            // Pelota
-            ctx.fillStyle = '#fff';
+            // Borde de la paleta de la CPU
+            ctx.strokeStyle = "#000";
+            ctx.strokeRect(canvas.width - paddleWidth, cpuY, paddleWidth, paddleHeight);
+            
+            // Pelota con efecto dorado
+            const ballGradient = ctx.createRadialGradient(
+                ballX + ballSize/2, ballY + ballSize/2, 0,
+                ballX + ballSize/2, ballY + ballSize/2, ballSize/2
+            );
+            ballGradient.addColorStop(0, "#FFF");
+            ballGradient.addColorStop(0.7, "#FFD700");
+            ballGradient.addColorStop(1, "#b8860b");
+            
+            ctx.fillStyle = ballGradient;
             ctx.beginPath();
-            ctx.arc(ballX + ballSize / 2, ballY + ballSize / 2, ballSize / 2, 0, Math.PI * 2);
+            ctx.arc(ballX + ballSize/2, ballY + ballSize/2, ballSize/2, 0, Math.PI * 2);
             ctx.fill();
             
-            // Efecto de brillo en la pelota
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            // Brillo en la pelota
+            ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
             ctx.beginPath();
-            ctx.arc(ballX + ballSize / 3, ballY + ballSize / 3, ballSize / 4, 0, Math.PI * 2);
+            ctx.arc(ballX + ballSize/3, ballY + ballSize/3, ballSize/4, 0, Math.PI * 2);
             ctx.fill();
             
             // Texto de pausa
             if (gamePaused) {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                ctx.fillStyle = '#fff';
-                ctx.font = '30px Courier New';
-                ctx.textAlign = 'center';
-                ctx.fillText('PAUSADO', canvas.width / 2, canvas.height / 2);
+                ctx.fillStyle = "#FFD700";
+                ctx.font = "bold 32px 'Segoe UI', sans-serif";
+                ctx.textAlign = "center";
+                ctx.fillText("PAUSADO", canvas.width / 2, canvas.height / 2);
+                
+                ctx.font = "18px 'Segoe UI', sans-serif";
+                ctx.fillStyle = "#b8860b";
+                ctx.fillText("Toca REANUDAR para continuar", canvas.width / 2, canvas.height / 2 + 40);
             }
         }
 
-        // Función para simular sonido (solo en navegadores que lo soporten)
-        function beep(frequency, duration, volume) {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                
-                oscillator.frequency.value = frequency;
-                oscillator.type = 'square';
-                
-                gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration / 1000);
-                
-                oscillator.start(audioCtx.currentTime);
-                oscillator.stop(audioCtx.currentTime + duration / 1000);
-            } catch (e) {
-                // El navegador no soporta Web Audio API
-                console.log("Audio no soportado");
-            }
-        }
-
-        // Dibujar estado inicial
+        // Inicializar partículas y dibujar estado inicial
+        createParticles();
         draw();
     </script>
 </body>
