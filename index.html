@@ -19,6 +19,7 @@
     --btn-yellow:#ffbc49;
     --btn-green:#7cb342;
     --btn-purple:#8e44ad;
+    --btn-red:#e74c3c; /* NUEVO: color rojo para el botón de precio */
 
     --gold:#d4af37;               /* DORADO */
     --raise: clamp(90px, 12vh, 180px);
@@ -181,6 +182,7 @@
   .btn-yellow{ background:var(--btn-yellow); color:#0a0a0a; }
   .btn-green{ background:var(--btn-green); }
   .btn-purple{ background:var(--btn-purple); }
+  .btn-red{ background:var(--btn-red); } /* NUEVO: estilo para botón de precio */
 
   /* ===== Barra fija ===== */
   .infobar{
@@ -330,6 +332,9 @@
 
           <a class="btn btn-purple" data-action="open"
              data-href="https://www.elsenordelosescaner.cl">Visitar web</a>
+
+          <!-- NUEVO BOTÓN DE PRECIO -->
+          <a class="btn btn-red" data-action="precio">Precio</a>
         </div>
       </div>
     </div>
@@ -414,6 +419,22 @@ END:VCARD`;
       document.body.appendChild(a); a.click(); a.remove();
       URL.revokeObjectURL(url);
       showModal("Contacto guardado","Se descargó la ficha de contacto. Ábrela para añadirla a tu agenda.");
+    },
+    // NUEVO HANDLER PARA EL BOTÓN DE PRECIO
+    precio: () => {
+      showModal("Precio del Scanner",
+        `<p style="font-size: 18px; text-align: center; margin-bottom: 10px;">
+          <strong>Scanner:</strong>
+        </p>
+        <p style="text-align: center; margin: 15px 0; font-size: 22px; color: #e74c3c;">
+          <strong>Efectivo: $20.000</strong>
+        </p>
+        <p style="text-align: center; margin: 15px 0; font-size: 22px; color: #ffbc49;">
+          <strong>Tarjeta o Transferencia: $23.900 (IVA incluido)</strong>
+        </p>
+        <p style="text-align: center; font-size: 14px; color: #d9d9d9; margin-top: 20px;">
+          <em>Consulta precios para otros servicios</em>
+        </p>`);
     }
   };
 
