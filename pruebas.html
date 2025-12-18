@@ -37,16 +37,17 @@
   .promo-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.92);
+    background: rgba(0, 0, 0, 0.75); /* Más translúcido para ver la tarjeta */
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
     animation: fadeIn 0.4s ease-out;
+    backdrop-filter: blur(3px); /* Desenfoque del fondo */
   }
   
   .promo-content.mini {
-    background: linear-gradient(145deg, #0a0e14, #1a2230);
+    background: rgba(10, 14, 20, 0.85); /* Fondo más translúcido */
     border-radius: 20px;
     padding: 25px 30px;
     max-width: 380px;
@@ -57,10 +58,11 @@
     position: relative;
     animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
     text-align: center;
+    backdrop-filter: blur(5px); /* Desenfoque interno */
   }
   
   .promo-content.full {
-    background: linear-gradient(145deg, #0a0e14, #1a2230);
+    background: rgba(10, 14, 20, 0.9); /* Fondo más translúcido */
     border-radius: 20px;
     padding: 30px;
     max-width: 480px;
@@ -70,6 +72,7 @@
                 0 0 40px rgba(212, 175, 55, 0.2);
     position: relative;
     animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    backdrop-filter: blur(5px); /* Desenfoque interno */
   }
   
   .promo-header {
@@ -502,7 +505,7 @@
       
       <div class="promo-header mini">
         <h2 class="promo-title mini">¡PROMOCIÓN ESPECIAL!</h2>
-        
+       
       </div>
       
       <div class="promo-cta">
@@ -518,7 +521,7 @@
       
       <div class="promo-header">
         <h2 class="promo-title">¡PROMOCIÓN ESPECIAL!</h2>
-        <p class="promo-subtitle">Oferta limitada por tiempo</p>
+     
       </div>
       
       <div class="promo-body">
