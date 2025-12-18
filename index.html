@@ -400,6 +400,27 @@
   }
   .infobar .left-mini{ opacity:.95; }
   .infobar .right-mini{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  
+  /* Estilo para el enlace de crédito */
+  .infobar .credit-link {
+    color: #ffbc49;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(255, 188, 73, 0.1);
+  }
+  
+  .infobar .credit-link:hover {
+    background: rgba(255, 188, 73, 0.2);
+    transform: translateY(-2px);
+    text-decoration: underline;
+  }
+  
+  .infobar .credit-link:active {
+    transform: translateY(0);
+  }
 
   /* ===== Modal ===== */
   .modal{ position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.55); z-index:80; }
@@ -656,7 +677,7 @@
   <div class="infobar" role="contentinfo">
     <div class="left-mini">© <span id="year"></span> El Señor de los Scanner</div>
     <div class="right-mini">
-      <span>Hecho por <strong>Benjamín González</strong></span>
+      <span>Hecho por <a href="https://tarjetavirtual-delta.vercel.app/" class="credit-link" target="_blank" rel="noopener">Benjamín González</a></span>
     </div>
   </div>
 
