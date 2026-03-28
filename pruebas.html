@@ -677,7 +677,7 @@
   <div class="infobar" role="contentinfo">
     <div class="left-mini">© <span id="year"></span> El Señor de los Scanner</div>
     <div class="right-mini">
-      <span>Hecho por <a href="https://tarjetavirtual-delta.vercel.app/" class="credit-link" target="_blank" rel="noopener">Benjamín González</a></span>
+      <span>Administrado por <a href="https://tarjetavirtual-delta.vercel.app/" class="credit-link" target="_blank" rel="noopener">Benjamín González</a></span>
     </div>
   </div>
 
@@ -709,47 +709,7 @@
   const $  = (s, r=document)=>r.querySelector(s);
   const openURL = url => window.open(url, "_blank", "noopener");
 
-  // Modal de promoción
-  const promoModal = $("#promoModal");
-  const promoMini = $("#promoMini");
-  const promoFull = $("#promoFull");
-  const promoCloseMini = $("#promoCloseMini");
-  const promoCloseFull = $("#promoCloseFull");
-  const promoSeeMoreBtn = $("#promoSeeMoreBtn");
-  const promoWhatsAppBtn = $("#promoWhatsAppBtn");
-
-  // Mostrar modal mini al cargar la página
-  document.addEventListener('DOMContentLoaded', () => {
-    // Mostrar después de 1 segundo
-    setTimeout(() => {
-      promoModal.style.display = 'flex';
-      promoMini.style.display = 'block';
-      promoFull.style.display = 'none';
-    }, 1000);
-  });
-
-  // Función para mostrar la versión completa
-  promoSeeMoreBtn.addEventListener('click', () => {
-    promoMini.style.display = 'none';
-    promoFull.style.display = 'block';
-  });
-
-  // Función para cerrar modal mini
-  promoCloseMini.addEventListener('click', () => {
-    promoModal.style.display = 'none';
-  });
-
-  // Función para cerrar modal full
-  promoCloseFull.addEventListener('click', () => {
-    promoModal.style.display = 'none';
-  });
-
-  // Cerrar modal al hacer clic fuera del contenido
-  promoModal.addEventListener('click', (e) => {
-    if (e.target === promoModal) {
-      promoModal.style.display = 'none';
-    }
-  });
+ 
 
   // Botón de WhatsApp en el modal de promoción (usa mensaje ESPECIAL)
   promoWhatsAppBtn.addEventListener('click', () => {
@@ -849,3 +809,4 @@ END:VCARD`;
 </script>
 </body>
 </html>
+
